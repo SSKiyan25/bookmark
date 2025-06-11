@@ -1,3 +1,7 @@
+export * from './bookmark';
+export * from './category';
+export * from './filter';
+
 export interface User {
     id: number;
     name: string;

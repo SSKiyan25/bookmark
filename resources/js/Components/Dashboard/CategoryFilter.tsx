@@ -15,7 +15,7 @@ export default function CategoryFilter({
         <div>
             <label
                 htmlFor="category-filter"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium text-foreground"
             >
                 Filter by Category
             </label>
@@ -23,7 +23,7 @@ export default function CategoryFilter({
                 id="category-filter"
                 value={selectedCategory || ""}
                 onChange={(e) => onChange(e.target.value || null)}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                className="mt-1 block w-full rounded-md border-border bg-background text-foreground shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
             >
                 <option value="">All Categories</option>
                 {categories.map((category) => (

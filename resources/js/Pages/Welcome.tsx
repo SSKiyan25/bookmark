@@ -5,14 +5,14 @@ export default function Welcome({ auth }: PageProps) {
     return (
         <>
             <Head title="BookChest - Simple Bookmark Manager" />
-            <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-gray-900 dark:to-indigo-950">
+            <div className="min-h-screen bg-gradient-to-br from-background/50 to-primary/5">
                 <div className="relative flex min-h-screen flex-col items-center">
                     {/* Header/Navigation */}
-                    <header className="w-full bg-white/80 backdrop-blur-sm shadow-sm dark:bg-gray-800/80 dark:backdrop-blur-sm">
+                    <header className="w-full bg-card/80 backdrop-blur-sm shadow-sm">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
                             <div className="flex items-center">
                                 <svg
-                                    className="h-8 w-8 text-indigo-600 dark:text-indigo-400"
+                                    className="h-8 w-8 text-primary"
                                     viewBox="0 0 24 24"
                                     fill="none"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -25,7 +25,7 @@ export default function Welcome({ auth }: PageProps) {
                                         strokeLinejoin="round"
                                     />
                                 </svg>
-                                <span className="ml-2 text-xl font-bold text-gray-900 dark:text-white">
+                                <span className="ml-2 text-xl font-bold text-foreground">
                                     BookChest
                                 </span>
                             </div>
@@ -33,7 +33,7 @@ export default function Welcome({ auth }: PageProps) {
                                 {auth.user ? (
                                     <Link
                                         href={route("dashboard")}
-                                        className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition"
+                                        className="px-4 py-2 text-sm font-medium text-primary-foreground bg-primary rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition"
                                     >
                                         Dashboard
                                     </Link>
@@ -41,13 +41,13 @@ export default function Welcome({ auth }: PageProps) {
                                     <>
                                         <Link
                                             href={route("login")}
-                                            className="px-4 py-2 text-sm font-medium text-indigo-600 bg-white border border-indigo-600 rounded-md hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition dark:bg-transparent dark:text-indigo-400 dark:border-indigo-400 dark:hover:bg-indigo-950"
+                                            className="px-4 py-2 text-sm font-medium text-primary bg-card border border-primary rounded-md hover:bg-accent focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition"
                                         >
                                             Log in
                                         </Link>
                                         <Link
                                             href={route("register")}
-                                            className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition"
+                                            className="px-4 py-2 text-sm font-medium text-primary-foreground bg-primary rounded-md hover:bg-primary/90 hover:opacity-70 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition"
                                         >
                                             Register
                                         </Link>
@@ -60,14 +60,11 @@ export default function Welcome({ auth }: PageProps) {
                     {/* Hero Section */}
                     <main className="flex-grow flex items-center justify-center w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                         <div className="text-center max-w-3xl">
-                            <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white mb-6">
+                            <h1 className="text-4xl sm:text-5xl font-extrabold text-foreground mb-6">
                                 Simple Bookmark Management with
-                                <span className="text-indigo-600 dark:text-indigo-400">
-                                    {" "}
-                                    BookChest
-                                </span>
+                                <span className="text-primary"> BookChest</span>
                             </h1>
-                            <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
+                            <p className="text-xl text-muted-foreground mb-8">
                                 Save and organize your favorite websites with
                                 categories. Access your bookmarks anywhere,
                                 anytime.
@@ -76,7 +73,7 @@ export default function Welcome({ auth }: PageProps) {
                             {auth.user ? (
                                 <Link
                                     href={route("dashboard")}
-                                    className="px-6 py-3 text-base font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition shadow-md inline-flex items-center"
+                                    className="px-6 py-3 text-base font-medium text-primary-foreground bg-primary rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition shadow-md inline-flex items-center"
                                 >
                                     Go to Dashboard
                                     <svg
@@ -96,7 +93,7 @@ export default function Welcome({ auth }: PageProps) {
                                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                     <Link
                                         href={route("register")}
-                                        className="px-6 py-3 text-base font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition shadow-md flex items-center justify-center"
+                                        className="px-6 py-3 text-base font-medium text-primary-foreground bg-primary rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition shadow-md flex items-center justify-center"
                                     >
                                         Get Started
                                         <svg
@@ -114,7 +111,7 @@ export default function Welcome({ auth }: PageProps) {
                                     </Link>
                                     <Link
                                         href={route("login")}
-                                        className="px-6 py-3 text-base font-medium text-indigo-600 bg-white border border-indigo-600 rounded-md hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition flex items-center justify-center dark:bg-transparent dark:text-indigo-400 dark:border-indigo-400 dark:hover:bg-indigo-950"
+                                        className="px-6 py-3 text-base font-medium text-primary bg-card border border-primary rounded-md hover:bg-accent focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition flex items-center justify-center"
                                     >
                                         Sign In
                                     </Link>
@@ -123,15 +120,15 @@ export default function Welcome({ auth }: PageProps) {
                         </div>
                     </main>
 
-                    {/* Features Section - Simplified */}
-                    <section className="w-full bg-white dark:bg-gray-800 py-12">
+                    {/* Features Section */}
+                    <section className="w-full bg-card py-12">
                         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                            <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-8">
+                            <h2 className="text-2xl font-bold text-center text-foreground mb-8">
                                 Core Features
                             </h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div className="p-5 bg-gray-50 dark:bg-gray-700 rounded-lg flex">
-                                    <div className="w-10 h-10 bg-indigo-100 dark:bg-indigo-900 rounded-lg flex items-center justify-center text-indigo-600 dark:text-indigo-300 mr-4 flex-shrink-0">
+                                <div className="p-5 bg-muted rounded-lg flex">
+                                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary mr-4 flex-shrink-0">
                                         <svg
                                             className="w-5 h-5"
                                             xmlns="http://www.w3.org/2000/svg"
@@ -148,17 +145,17 @@ export default function Welcome({ auth }: PageProps) {
                                         </svg>
                                     </div>
                                     <div>
-                                        <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                                        <h3 className="text-lg font-medium text-foreground">
                                             Categorize Bookmarks
                                         </h3>
-                                        <p className="mt-1 text-gray-600 dark:text-gray-300">
+                                        <p className="mt-1 text-muted-foreground">
                                             Create categories to organize your
                                             bookmarks efficiently
                                         </p>
                                     </div>
                                 </div>
-                                <div className="p-5 bg-gray-50 dark:bg-gray-700 rounded-lg flex">
-                                    <div className="w-10 h-10 bg-indigo-100 dark:bg-indigo-900 rounded-lg flex items-center justify-center text-indigo-600 dark:text-indigo-300 mr-4 flex-shrink-0">
+                                <div className="p-5 bg-muted rounded-lg flex">
+                                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary mr-4 flex-shrink-0">
                                         <svg
                                             className="w-5 h-5"
                                             xmlns="http://www.w3.org/2000/svg"
@@ -175,17 +172,17 @@ export default function Welcome({ auth }: PageProps) {
                                         </svg>
                                     </div>
                                     <div>
-                                        <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                                        <h3 className="text-lg font-medium text-foreground">
                                             Easy to Add
                                         </h3>
-                                        <p className="mt-1 text-gray-600 dark:text-gray-300">
+                                        <p className="mt-1 text-muted-foreground">
                                             Quickly add and save bookmarks with
                                             title, URL, and description
                                         </p>
                                     </div>
                                 </div>
-                                <div className="p-5 bg-gray-50 dark:bg-gray-700 rounded-lg flex">
-                                    <div className="w-10 h-10 bg-indigo-100 dark:bg-indigo-900 rounded-lg flex items-center justify-center text-indigo-600 dark:text-indigo-300 mr-4 flex-shrink-0">
+                                <div className="p-5 bg-muted rounded-lg flex">
+                                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary mr-4 flex-shrink-0">
                                         <svg
                                             className="w-5 h-5"
                                             xmlns="http://www.w3.org/2000/svg"
@@ -202,17 +199,17 @@ export default function Welcome({ auth }: PageProps) {
                                         </svg>
                                     </div>
                                     <div>
-                                        <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                                        <h3 className="text-lg font-medium text-foreground">
                                             Archive Option
                                         </h3>
-                                        <p className="mt-1 text-gray-600 dark:text-gray-300">
+                                        <p className="mt-1 text-muted-foreground">
                                             Archive bookmarks instead of
                                             deleting them completely
                                         </p>
                                     </div>
                                 </div>
-                                <div className="p-5 bg-gray-50 dark:bg-gray-700 rounded-lg flex">
-                                    <div className="w-10 h-10 bg-indigo-100 dark:bg-indigo-900 rounded-lg flex items-center justify-center text-indigo-600 dark:text-indigo-300 mr-4 flex-shrink-0">
+                                <div className="p-5 bg-muted rounded-lg flex">
+                                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary mr-4 flex-shrink-0">
                                         <svg
                                             className="w-5 h-5"
                                             xmlns="http://www.w3.org/2000/svg"
@@ -229,10 +226,10 @@ export default function Welcome({ auth }: PageProps) {
                                         </svg>
                                     </div>
                                     <div>
-                                        <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                                        <h3 className="text-lg font-medium text-foreground">
                                             Secure Access
                                         </h3>
-                                        <p className="mt-1 text-gray-600 dark:text-gray-300">
+                                        <p className="mt-1 text-muted-foreground">
                                             Your bookmarks are private and only
                                             accessible with your account
                                         </p>
@@ -242,8 +239,8 @@ export default function Welcome({ auth }: PageProps) {
                         </div>
                     </section>
 
-                    <footer className="w-full bg-gray-50 dark:bg-gray-900 py-6">
-                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500 dark:text-gray-400">
+                    <footer className="w-full bg-muted/50 py-6">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-muted-foreground">
                             <p>
                                 © {new Date().getFullYear()} BookChest. A simple
                                 bookmark manager.

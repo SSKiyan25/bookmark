@@ -11,22 +11,22 @@ interface PaginationProps {
 }
 
 export default function Pagination({ links }: PaginationProps) {
-    // This shold not render pagination if there's only 3 or fewer links (prev, next, current)
+    // This should not render pagination if there's only 3 or fewer links (prev, next, current)
     if (!links || links.length <= 3) return null;
 
     return (
-        <div className="mt-6 px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+        <div className="mt-6 px-4 py-3 flex items-center justify-between border-t border-border sm:px-6">
             <div className="flex justify-between flex-1 sm:hidden">
                 {/* Mobile previous button */}
                 {links[0].url ? (
                     <Link
                         href={links[0].url as string}
-                        className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                        className="relative inline-flex items-center px-4 py-2 border border-border text-sm font-medium rounded-md text-foreground bg-card hover:bg-accent"
                     >
                         Previous
                     </Link>
                 ) : (
-                    <span className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-300 bg-gray-100">
+                    <span className="relative inline-flex items-center px-4 py-2 border border-border text-sm font-medium rounded-md text-muted-foreground bg-muted cursor-not-allowed">
                         Previous
                     </span>
                 )}
@@ -35,12 +35,12 @@ export default function Pagination({ links }: PaginationProps) {
                 {links[links.length - 1].url ? (
                     <Link
                         href={links[links.length - 1].url as string}
-                        className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                        className="ml-3 relative inline-flex items-center px-4 py-2 border border-border text-sm font-medium rounded-md text-foreground bg-card hover:bg-accent"
                     >
                         Next
                     </Link>
                 ) : (
-                    <span className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-300 bg-gray-100">
+                    <span className="ml-3 relative inline-flex items-center px-4 py-2 border border-border text-sm font-medium rounded-md text-muted-foreground bg-muted cursor-not-allowed">
                         Next
                     </span>
                 )}
@@ -59,7 +59,7 @@ export default function Pagination({ links }: PaginationProps) {
                                 return (
                                     <span
                                         key={i}
-                                        className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500"
+                                        className="relative inline-flex items-center px-4 py-2 border border-border bg-card text-sm font-medium text-muted-foreground"
                                         dangerouslySetInnerHTML={{
                                             __html: link.label,
                                         }}
@@ -71,11 +71,11 @@ export default function Pagination({ links }: PaginationProps) {
                             return (
                                 <Link
                                     key={i}
-                                    href={link.url as string} // Type assertion here too
+                                    href={link.url as string}
                                     className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
                                         link.active
-                                            ? "z-10 bg-indigo-50 border-indigo-500 text-indigo-600"
-                                            : "bg-white border-gray-300 text-gray-500 hover:bg-gray-50"
+                                            ? "z-10 bg-primary/10 border-primary text-primary"
+                                            : "bg-card border-border text-foreground hover:bg-accent"
                                     }`}
                                     dangerouslySetInnerHTML={{
                                         __html: link.label,

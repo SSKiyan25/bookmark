@@ -27,7 +27,7 @@ export default function FilterBar({
     searchQuery,
 }: FilterBarProps) {
     return (
-        <div className="mb-6 p-4 bg-white shadow-sm sm:rounded-lg">
+        <div className="mb-6 p-4 bg-card shadow-sm sm:rounded-lg border border-border">
             <div className="flex flex-wrap items-center gap-4">
                 {/* Category Filter */}
                 <CategoryFilter
@@ -42,8 +42,8 @@ export default function FilterBar({
                         onClick={onArchivedToggle}
                         className={`px-3 py-2 rounded-md text-sm font-medium ${
                             filters.archived
-                                ? "bg-indigo-600 text-white"
-                                : "bg-gray-200 text-gray-700"
+                                ? "bg-primary text-primary-foreground"
+                                : "bg-muted text-muted-foreground hover:bg-accent"
                         }`}
                     >
                         {filters.archived ? "Show All" : "Show Archived"}
@@ -64,7 +64,7 @@ export default function FilterBar({
                     <div className="ml-auto">
                         <button
                             onClick={onClearFilters}
-                            className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200"
+                            className="px-3 py-2 rounded-md text-sm font-medium text-foreground bg-muted hover:bg-accent"
                         >
                             Clear Filters
                         </button>

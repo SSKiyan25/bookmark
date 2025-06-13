@@ -45,7 +45,7 @@ export default function BookmarkHeader({
 
     return (
         <div className="mb-4 flex justify-between items-center">
-            <h3 className="text-lg font-medium text-gray-900">
+            <h3 className="text-lg font-medium text-foreground">
                 Your Bookmarks
             </h3>
             <div className="flex gap-2 items-center">
@@ -54,7 +54,7 @@ export default function BookmarkHeader({
                     <div>
                         <button
                             type="button"
-                            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-primary-foreground bg-primary hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
                             id="category-menu-button"
                             aria-expanded="true"
                             aria-haspopup="true"
@@ -83,7 +83,7 @@ export default function BookmarkHeader({
                     </div>
                     <div
                         id="category-dropdown"
-                        className="hidden origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
+                        className="hidden origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-card ring-1 ring-border focus:outline-none z-10"
                     >
                         <div
                             className="py-1"
@@ -92,14 +92,14 @@ export default function BookmarkHeader({
                             aria-labelledby="category-menu-button"
                         >
                             {reachedCategoryLimit ? (
-                                <div className="px-4 py-2 text-sm text-amber-600">
+                                <div className="px-4 py-2 text-sm text-destructive">
                                     Category limit reached (max {MAX_CATEGORIES}
                                     )
                                 </div>
                             ) : (
                                 <Link
                                     href={route("categories.create")}
-                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                    className="block px-4 py-2 text-sm text-foreground hover:bg-accent"
                                 >
                                     Add New Category
                                 </Link>
@@ -107,15 +107,15 @@ export default function BookmarkHeader({
 
                             {hasCategories && categories.length > 0 && (
                                 <>
-                                    <div className="border-t border-gray-100 my-1"></div>
-                                    <div className="px-4 py-2 text-xs text-gray-500">
+                                    <div className="border-t border-border my-1"></div>
+                                    <div className="px-4 py-2 text-xs text-muted-foreground">
                                         Edit Categories ({categoryCount}/
                                         {MAX_CATEGORIES})
                                     </div>
                                     {categories.map((category) => (
                                         <div
                                             key={category.id}
-                                            className="flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                            className="flex items-center justify-between px-4 py-2 text-sm text-foreground hover:bg-accent"
                                         >
                                             <Link
                                                 href={route(
@@ -134,7 +134,7 @@ export default function BookmarkHeader({
                                                             e
                                                         )
                                                     }
-                                                    className="text-red-600 hover:text-red-800 focus:outline-none"
+                                                    className="text-destructive hover:text-destructive/80 focus:outline-none"
                                                     disabled={isDeleting}
                                                     title="Delete category"
                                                 >
@@ -166,7 +166,7 @@ export default function BookmarkHeader({
                 {categoryCount > 0 &&
                     categoryCount >= MAX_CATEGORIES - 2 &&
                     !reachedCategoryLimit && (
-                        <span className="text-xs text-amber-600">
+                        <span className="text-xs text-destructive/80">
                             {MAX_CATEGORIES - categoryCount}{" "}
                             {MAX_CATEGORIES - categoryCount === 1
                                 ? "category"
@@ -178,10 +178,10 @@ export default function BookmarkHeader({
                 {/* Bookmark button */}
                 <Link
                     href={route("bookmarks.create")}
-                    className={`inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
+                    className={`inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-primary-foreground ${
                         !hasCategories
-                            ? "bg-gray-400 cursor-not-allowed"
-                            : "bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            ? "bg-muted text-muted-foreground cursor-not-allowed"
+                            : "bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
                     }`}
                     {...(!hasCategories
                         ? {

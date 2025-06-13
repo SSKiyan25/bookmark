@@ -20,12 +20,12 @@ export default function EmptyState({
     if (!hasCategories) {
         return (
             <div className="text-center py-8">
-                <div className="text-gray-500 mb-4">
+                <div className="text-muted-foreground mb-4">
                     You need to create a category before adding bookmarks.
                 </div>
                 <Link
                     href={route("categories.create")}
-                    className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                    className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-primary-foreground bg-secondary hover:bg-secondary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary"
                 >
                     Create Your First Category
                 </Link>
@@ -36,7 +36,7 @@ export default function EmptyState({
     // Categories exist but no bookmarks yet (either filtered or overall)
     return (
         <div className="text-center py-8">
-            <div className="text-gray-500 mb-4">
+            <div className="text-muted-foreground mb-4">
                 {hasActiveFilters ? (
                     <>
                         <p>No bookmarks found with the current filters.</p>
@@ -73,14 +73,14 @@ export default function EmptyState({
             {hasActiveFilters ? (
                 <button
                     onClick={onClearFilters}
-                    className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="inline-flex items-center px-4 py-2 border border-border rounded-md shadow-sm text-sm font-medium text-foreground bg-card hover:bg-accent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
                 >
                     Clear Filters
                 </button>
             ) : (
                 <Link
                     href={route("bookmarks.create")}
-                    className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-primary-foreground bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
                 >
                     Add Your First Bookmark
                 </Link>

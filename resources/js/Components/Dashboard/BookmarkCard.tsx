@@ -14,16 +14,16 @@ export default function BookmarkCard({
 }: BookmarkCardProps) {
     return (
         <div
-            className={`border rounded-lg overflow-hidden shadow-sm ${
-                bookmark.is_archived ? "bg-gray-50" : "bg-white"
+            className={`border border-border rounded-lg overflow-hidden shadow-sm ${
+                bookmark.is_archived ? "bg-muted" : "bg-card"
             }`}
         >
             <div className="p-4">
                 <div className="flex justify-between items-start">
-                    <h4 className="text-lg font-medium text-gray-900 mb-1 truncate">
+                    <h4 className="text-lg font-medium text-foreground mb-1 truncate">
                         {bookmark.title}
                     </h4>
-                    <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">
+                    <span className="px-2 py-1 text-xs rounded-full bg-secondary text-secondary-foreground">
                         {bookmark.category?.name || "Uncategorized"}
                     </span>
                 </div>
@@ -32,13 +32,13 @@ export default function BookmarkCard({
                     href={bookmark.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-indigo-600 hover:text-indigo-900 truncate block mb-2"
+                    className="text-sm text-primary hover:text-primary/80 truncate block mb-2"
                 >
                     {bookmark.url}
                 </a>
 
                 {bookmark.description && (
-                    <p className="text-sm text-gray-500 mb-4 line-clamp-3">
+                    <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
                         {bookmark.description}
                     </p>
                 )}
@@ -47,14 +47,14 @@ export default function BookmarkCard({
                     <div className="flex space-x-2">
                         <Link
                             href={route("bookmarks.edit", bookmark.id)}
-                            className="inline-flex items-center px-2 py-1 border border-gray-300 rounded-md text-xs text-gray-700 bg-white hover:bg-gray-50"
+                            className="inline-flex items-center px-2 py-1 border border-border rounded-md text-xs text-foreground bg-card hover:bg-accent"
                         >
                             Edit
                         </Link>
 
                         <button
                             onClick={() => onToggleArchive(bookmark)}
-                            className="inline-flex items-center px-2 py-1 border border-gray-300 rounded-md text-xs text-gray-700 bg-white hover:bg-gray-50"
+                            className="inline-flex items-center px-2 py-1 border border-border rounded-md text-xs text-foreground bg-card hover:bg-accent"
                         >
                             {bookmark.is_archived ? "Unarchive" : "Archive"}
                         </button>
@@ -62,7 +62,7 @@ export default function BookmarkCard({
 
                     <button
                         onClick={() => onDelete(bookmark)}
-                        className="inline-flex items-center px-2 py-1 border border-gray-300 rounded-md text-xs text-red-600 bg-white hover:bg-gray-50"
+                        className="inline-flex items-center px-2 py-1 border border-border rounded-md text-xs text-destructive bg-card hover:bg-destructive/10"
                     >
                         Delete
                     </button>

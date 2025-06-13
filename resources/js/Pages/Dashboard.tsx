@@ -30,9 +30,15 @@ export default function Dashboard({
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-foreground">
-                    Bookmark Saver
-                </h2>
+                <div>
+                    <h2 className="text-xl font-semibold leading-tight text-foreground">
+                        Bookmark Saver
+                    </h2>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                        Save, organize, and quickly access your favorite
+                        websites.
+                    </p>
+                </div>
             }
         >
             <Head title="Dashboard" />

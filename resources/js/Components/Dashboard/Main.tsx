@@ -6,6 +6,16 @@ import {
     BookmarkFilters,
     Bookmark,
 } from "@/types";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from "@/Components/ui/alert-dialog";
 
 import FilterBar from "./FilterBar";
 import BookmarkHeader from "./BookmarkHeader";
@@ -20,11 +30,17 @@ interface MainProps {
 }
 
 export default function Main({ bookmarks, categories, filters }: MainProps) {
+    // Extract bookmarks data from the collection
     const bookmarksData = Array.isArray(bookmarks)
         ? bookmarks
         : "data" in bookmarks && Array.isArray(bookmarks.data)
         ? bookmarks.data
         : [];
+
+    // Filter bookmarks based on archive status if not explicitly showing archived
+    const filteredBookmarks = filters.archived
+        ? bookmarksData
+        : bookmarksData.filter((bookmark) => !bookmark.is_archived);
 
     const hasCategories = categories.length > 0;
     const hasActiveFilters = !!(
@@ -39,6 +55,11 @@ export default function Main({ bookmarks, categories, filters }: MainProps) {
     const [selectedCategoryName, setSelectedCategoryName] = useState<
         string | null
     >(null);
+
+    // State for alert dialogs
+    const [isArchiveDialogOpen, setIsArchiveDialogOpen] = useState(false);
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+    const [activeBookmark, setActiveBookmark] = useState<Bookmark | null>(null);
 
     // Set selected category name when category changes
     useEffect(() => {
@@ -121,36 +142,44 @@ export default function Main({ bookmarks, categories, filters }: MainProps) {
         );
     };
 
+    // Initialize archive dialog
+    const openArchiveDialog = (bookmark: Bookmark) => {
+        setActiveBookmark(bookmark);
+        setIsArchiveDialogOpen(true);
+    };
+
+    // Initialize delete dialog
+    const openDeleteDialog = (bookmark: Bookmark) => {
+        setActiveBookmark(bookmark);
+        setIsDeleteDialogOpen(true);
+    };
+
     // Handler for toggling archive status
-    const handleToggleArchive = (bookmark: Bookmark) => {
-        if (
-            confirm(
-                `Are you sure you want to ${
-                    bookmark.is_archived ? "unarchive" : "archive"
-                } this bookmark?`
-            )
-        ) {
+    const handleToggleArchive = () => {
+        if (activeBookmark) {
             router.patch(
-                route("bookmarks.archive", bookmark.id),
+                route("bookmarks.archive", activeBookmark.id),
                 {},
                 {
                     preserveState: true,
                 }
             );
+            setIsArchiveDialogOpen(false);
         }
     };
 
     // Handler for deleting bookmark
-    const handleDelete = (bookmark: Bookmark) => {
-        if (confirm("Are you sure you want to delete this bookmark?")) {
-            router.delete(route("bookmarks.destroy", bookmark.id), {
+    const handleDelete = () => {
+        if (activeBookmark) {
+            router.delete(route("bookmarks.destroy", activeBookmark.id), {
                 preserveState: true,
             });
+            setIsDeleteDialogOpen(false);
         }
     };
 
     return (
-        <div className="bg-white shadow-sm sm:rounded-lg">
+        <div className="bg-card shadow-sm sm:rounded-lg p-8 sm:p-4">
             {/* Filter bar - only show if we have categories */}
             {hasCategories && (
                 <FilterBar
@@ -166,7 +195,7 @@ export default function Main({ bookmarks, categories, filters }: MainProps) {
                 />
             )}
 
-            <div className="p-6">
+            <div className="p-4">
                 {/* Header with action buttons */}
                 <BookmarkHeader
                     hasCategories={hasCategories}
@@ -174,7 +203,7 @@ export default function Main({ bookmarks, categories, filters }: MainProps) {
                 />
 
                 {/* Content: Either empty state or bookmark grid */}
-                {!hasCategories || bookmarksData.length === 0 ? (
+                {!hasCategories || filteredBookmarks.length === 0 ? (
                     <EmptyState
                         hasCategories={hasCategories}
                         hasActiveFilters={hasActiveFilters}
@@ -184,9 +213,9 @@ export default function Main({ bookmarks, categories, filters }: MainProps) {
                     />
                 ) : (
                     <BookmarkGrid
-                        bookmarks={bookmarksData}
-                        onToggleArchive={handleToggleArchive}
-                        onDelete={handleDelete}
+                        bookmarks={filteredBookmarks}
+                        onToggleArchive={openArchiveDialog}
+                        onDelete={openDeleteDialog}
                     />
                 )}
 
@@ -197,6 +226,69 @@ export default function Main({ bookmarks, categories, filters }: MainProps) {
                         <Pagination links={bookmarks.meta.links} />
                     )}
             </div>
+
+            {/* Archive Alert Dialog */}
+            <AlertDialog
+                open={isArchiveDialogOpen}
+                onOpenChange={setIsArchiveDialogOpen}
+            >
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>
+                            {activeBookmark?.is_archived
+                                ? "Unarchive"
+                                : "Archive"}{" "}
+                            Bookmark
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                            Are you sure you want to{" "}
+                            {activeBookmark?.is_archived
+                                ? "unarchive"
+                                : "archive"}
+                            "{activeBookmark?.title}"?
+                            {!activeBookmark?.is_archived &&
+                                " It will be moved to your archive."}
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                            onClick={handleToggleArchive}
+                            className="bg-primary text-primary-foreground hover:bg-primary/90"
+                        >
+                            {activeBookmark?.is_archived
+                                ? "Unarchive"
+                                : "Archive"}
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+
+            {/* Delete Alert Dialog */}
+            <AlertDialog
+                open={isDeleteDialogOpen}
+                onOpenChange={setIsDeleteDialogOpen}
+            >
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Delete Bookmark</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            Are you sure you want to delete "
+                            {activeBookmark?.title}"? This action cannot be
+                            undone.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                            onClick={handleDelete}
+                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                        >
+                            Delete
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </div>
     );
 }

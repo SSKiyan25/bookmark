@@ -1,7 +1,112 @@
 import { PageProps } from "@/types";
 import { Head, Link } from "@inertiajs/react";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/Components/ui/card";
+import { Button } from "@/Components/ui/button";
+import { Badge } from "@/Components/ui/badge";
+import { ReactNode } from "react";
+
+// Define a type for our feature data
+interface Feature {
+    icon: ReactNode;
+    title: string;
+    description: string;
+}
 
 export default function Welcome({ auth }: PageProps) {
+    const features: Feature[] = [
+        {
+            icon: (
+                <svg
+                    className="w-5 h-5"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
+                    />
+                </svg>
+            ),
+            title: "Categorize Bookmarks",
+            description:
+                "Create categories to organize your bookmarks efficiently",
+        },
+        {
+            icon: (
+                <svg
+                    className="w-5 h-5"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                    />
+                </svg>
+            ),
+            title: "Easy to Add",
+            description:
+                "Quickly add and save bookmarks with title, URL, and description",
+        },
+        {
+            icon: (
+                <svg
+                    className="w-5 h-5"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"
+                    />
+                </svg>
+            ),
+            title: "Archive Option",
+            description:
+                "Archive bookmarks instead of deleting them completely",
+        },
+        {
+            icon: (
+                <svg
+                    className="w-5 h-5"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                    />
+                </svg>
+            ),
+            title: "Secure Access",
+            description:
+                "Your bookmarks are private and only accessible with your account",
+        },
+    ];
+
     return (
         <>
             <Head title="BookChest - Simple Bookmark Manager" />
@@ -31,26 +136,23 @@ export default function Welcome({ auth }: PageProps) {
                             </div>
                             <nav className="flex space-x-4">
                                 {auth.user ? (
-                                    <Link
-                                        href={route("dashboard")}
-                                        className="px-4 py-2 text-sm font-medium text-primary-foreground bg-primary rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition"
-                                    >
-                                        Dashboard
-                                    </Link>
+                                    <Button asChild>
+                                        <Link href={route("dashboard")}>
+                                            Dashboard
+                                        </Link>
+                                    </Button>
                                 ) : (
                                     <>
-                                        <Link
-                                            href={route("login")}
-                                            className="px-4 py-2 text-sm font-medium text-primary bg-card border border-primary rounded-md hover:bg-accent focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition"
-                                        >
-                                            Log in
-                                        </Link>
-                                        <Link
-                                            href={route("register")}
-                                            className="px-4 py-2 text-sm font-medium text-primary-foreground bg-primary rounded-md hover:bg-primary/90 hover:opacity-70 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition"
-                                        >
-                                            Register
-                                        </Link>
+                                        <Button variant="outline" asChild>
+                                            <Link href={route("login")}>
+                                                Log in
+                                            </Link>
+                                        </Button>
+                                        <Button asChild>
+                                            <Link href={route("register")}>
+                                                Register
+                                            </Link>
+                                        </Button>
                                     </>
                                 )}
                             </nav>
@@ -71,31 +173,12 @@ export default function Welcome({ auth }: PageProps) {
                             </p>
 
                             {auth.user ? (
-                                <Link
-                                    href={route("dashboard")}
-                                    className="px-6 py-3 text-base font-medium text-primary-foreground bg-primary rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition shadow-md inline-flex items-center"
-                                >
-                                    Go to Dashboard
-                                    <svg
-                                        className="ml-2 h-5 w-5"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor"
-                                    >
-                                        <path
-                                            fillRule="evenodd"
-                                            d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
-                                            clipRule="evenodd"
-                                        />
-                                    </svg>
-                                </Link>
-                            ) : (
-                                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                <Button size="lg" asChild>
                                     <Link
-                                        href={route("register")}
-                                        className="px-6 py-3 text-base font-medium text-primary-foreground bg-primary rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition shadow-md flex items-center justify-center"
+                                        href={route("dashboard")}
+                                        className="inline-flex items-center"
                                     >
-                                        Get Started
+                                        Go to Dashboard
                                         <svg
                                             className="ml-2 h-5 w-5"
                                             xmlns="http://www.w3.org/2000/svg"
@@ -109,12 +192,34 @@ export default function Welcome({ auth }: PageProps) {
                                             />
                                         </svg>
                                     </Link>
-                                    <Link
-                                        href={route("login")}
-                                        className="px-6 py-3 text-base font-medium text-primary bg-card border border-primary rounded-md hover:bg-accent focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition flex items-center justify-center"
-                                    >
-                                        Sign In
-                                    </Link>
+                                </Button>
+                            ) : (
+                                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                    <Button size="lg" asChild>
+                                        <Link
+                                            href={route("register")}
+                                            className="inline-flex items-center"
+                                        >
+                                            Get Started
+                                            <svg
+                                                className="ml-2 h-5 w-5"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fillRule="evenodd"
+                                                    d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+                                                    clipRule="evenodd"
+                                                />
+                                            </svg>
+                                        </Link>
+                                    </Button>
+                                    <Button variant="outline" size="lg" asChild>
+                                        <Link href={route("login")}>
+                                            Sign In
+                                        </Link>
+                                    </Button>
                                 </div>
                             )}
                         </div>
@@ -127,114 +232,23 @@ export default function Welcome({ auth }: PageProps) {
                                 Core Features
                             </h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div className="p-5 bg-muted rounded-lg flex">
-                                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary mr-4 flex-shrink-0">
-                                        <svg
-                                            className="w-5 h-5"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
-                                            />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <h3 className="text-lg font-medium text-foreground">
-                                            Categorize Bookmarks
-                                        </h3>
-                                        <p className="mt-1 text-muted-foreground">
-                                            Create categories to organize your
-                                            bookmarks efficiently
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="p-5 bg-muted rounded-lg flex">
-                                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary mr-4 flex-shrink-0">
-                                        <svg
-                                            className="w-5 h-5"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                                            />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <h3 className="text-lg font-medium text-foreground">
-                                            Easy to Add
-                                        </h3>
-                                        <p className="mt-1 text-muted-foreground">
-                                            Quickly add and save bookmarks with
-                                            title, URL, and description
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="p-5 bg-muted rounded-lg flex">
-                                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary mr-4 flex-shrink-0">
-                                        <svg
-                                            className="w-5 h-5"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"
-                                            />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <h3 className="text-lg font-medium text-foreground">
-                                            Archive Option
-                                        </h3>
-                                        <p className="mt-1 text-muted-foreground">
-                                            Archive bookmarks instead of
-                                            deleting them completely
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="p-5 bg-muted rounded-lg flex">
-                                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary mr-4 flex-shrink-0">
-                                        <svg
-                                            className="w-5 h-5"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                                            />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <h3 className="text-lg font-medium text-foreground">
-                                            Secure Access
-                                        </h3>
-                                        <p className="mt-1 text-muted-foreground">
-                                            Your bookmarks are private and only
-                                            accessible with your account
-                                        </p>
-                                    </div>
-                                </div>
+                                {features.map((feature, index) => (
+                                    <Card key={index} className="bg-white">
+                                        <CardContent className="p-5 flex">
+                                            <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary mr-4 flex-shrink-0">
+                                                {feature.icon}
+                                            </div>
+                                            <div>
+                                                <CardTitle className="text-lg font-medium text-foreground">
+                                                    {feature.title}
+                                                </CardTitle>
+                                                <CardDescription className="mt-1">
+                                                    {feature.description}
+                                                </CardDescription>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                ))}
                             </div>
                         </div>
                     </section>

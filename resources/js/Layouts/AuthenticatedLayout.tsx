@@ -181,6 +181,14 @@ export default function Authenticated({
             <main className="bg-background">
                 {children} <Toaster />
             </main>
+            <footer className="w-full bg-muted/50 py-6">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-muted-foreground">
+                    <p>
+                        © {new Date().getFullYear()} BookChest. A simple
+                        bookmark manager.
+                    </p>
+                </div>
+            </footer>
         </div>
     );
 }

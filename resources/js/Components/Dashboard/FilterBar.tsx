@@ -28,7 +28,7 @@ export default function FilterBar({
 }: FilterBarProps) {
     return (
         <div className="mb-6 p-4 bg-card shadow-sm sm:rounded-lg border border-border">
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-wrap items-end gap-4">
                 {/* Category Filter */}
                 <CategoryFilter
                     categories={categories}

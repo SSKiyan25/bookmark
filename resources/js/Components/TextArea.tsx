@@ -1,29 +1,39 @@
-import { forwardRef, useEffect, useImperativeHandle, useRef, TextareaHTMLAttributes } from 'react';
+import {
+    forwardRef,
+    useEffect,
+    useImperativeHandle,
+    useRef,
+    TextareaHTMLAttributes,
+} from "react";
 
 export default forwardRef(function TextArea(
-  { className = '', isFocused = false, ...props }: TextareaHTMLAttributes<HTMLTextAreaElement> & { isFocused?: boolean },
-  ref
+    {
+        className = "",
+        isFocused = false,
+        ...props
+    }: TextareaHTMLAttributes<HTMLTextAreaElement> & { isFocused?: boolean },
+    ref
 ) {
-  const localRef = useRef<HTMLTextAreaElement>(null);
+    const localRef = useRef<HTMLTextAreaElement>(null);
 
-  useImperativeHandle(ref, () => ({
-    focus: () => localRef.current?.focus(),
-  }));
+    useImperativeHandle(ref, () => ({
+        focus: () => localRef.current?.focus(),
+    }));
 
-  useEffect(() => {
-    if (isFocused) {
-      localRef.current?.focus();
-    }
-  }, [isFocused]);
+    useEffect(() => {
+        if (isFocused) {
+            localRef.current?.focus();
+        }
+    }, [isFocused]);
 
-  return (
-    <textarea
-      {...props}
-      className={
-        'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm ' +
-        className
-      }
-      ref={localRef}
-    />
-  );
+    return (
+        <textarea
+            {...props}
+            className={
+                "rounded-md border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm placeholder:text-muted-foreground focus:border-ring focus:ring-1 focus:ring-ring focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 " +
+                className
+            }
+            ref={localRef}
+        />
+    );
 });

@@ -5,6 +5,7 @@ import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link, usePage } from "@inertiajs/react";
 import { PropsWithChildren, ReactNode, useState } from "react";
 import { Toaster } from "@/Components/ui/sonner";
+import { ModeToggle } from "@/Components/mode-toggle";
 
 export default function Authenticated({
     header,
@@ -25,7 +26,7 @@ export default function Authenticated({
                                 <Link href="/">
                                     <ApplicationLogo
                                         useImage={true}
-                                        logoVariant="1"
+                                        logoVariant="2"
                                         className="h-12 w-12"
                                     />
                                 </Link>
@@ -36,12 +37,15 @@ export default function Authenticated({
                                     href={route("dashboard")}
                                     active={route().current("dashboard")}
                                 >
-                                    Dashboard
+                                    <span className="text-secondary-foreground">
+                                        Dashboard
+                                    </span>
                                 </NavLink>
                             </div>
                         </div>
 
                         <div className="hidden sm:ms-6 sm:flex sm:items-center">
+                            <ModeToggle />
                             <div className="relative ms-3">
                                 <Dropdown>
                                     <Dropdown.Trigger>
@@ -87,6 +91,7 @@ export default function Authenticated({
                         </div>
 
                         <div className="-me-2 flex items-center sm:hidden">
+                            <ModeToggle />
                             <button
                                 onClick={() =>
                                     setShowingNavigationDropdown(

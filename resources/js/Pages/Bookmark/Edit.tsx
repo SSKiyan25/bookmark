@@ -108,7 +108,7 @@ export default function Edit({ bookmark, categories }: BookmarkEditProps) {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
+                <h2 className="text-xl font-semibold leading-tight text-foreground">
                     Edit Bookmark
                 </h2>
             }
@@ -117,7 +117,7 @@ export default function Edit({ bookmark, categories }: BookmarkEditProps) {
 
             <div className="py-12">
                 <div className="mx-auto max-w-2xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                    <div className="overflow-hidden bg-card shadow-sm sm:rounded-lg border border-border">
                         <div className="p-6">
                             <form onSubmit={submit} className="space-y-6">
                                 {/* Title Field */}
@@ -141,7 +141,7 @@ export default function Edit({ bookmark, categories }: BookmarkEditProps) {
                                         }
                                         className="mt-2"
                                     />
-                                    <p className="mt-1 text-xs text-gray-500">
+                                    <p className="mt-1 text-xs text-muted-foreground">
                                         A descriptive title for your bookmark.
                                     </p>
                                 </div>
@@ -164,7 +164,7 @@ export default function Edit({ bookmark, categories }: BookmarkEditProps) {
                                         }
                                         className="mt-2"
                                     />
-                                    <p className="mt-1 text-xs text-gray-500">
+                                    <p className="mt-1 text-xs text-muted-foreground">
                                         The full URL of the website (including
                                         https://).
                                     </p>
@@ -192,7 +192,7 @@ export default function Edit({ bookmark, categories }: BookmarkEditProps) {
                                         }
                                         className="mt-2"
                                     />
-                                    <p className="mt-1 text-xs text-gray-500">
+                                    <p className="mt-1 text-xs text-muted-foreground">
                                         A brief description of the website (max
                                         1000 characters).
                                     </p>
@@ -241,11 +241,11 @@ export default function Edit({ bookmark, categories }: BookmarkEditProps) {
                                             checked={data.is_archived}
                                             onChange={handleArchivedChange}
                                         />
-                                        <span className="ml-2 text-sm text-gray-600">
+                                        <span className="ml-2 text-sm text-muted-foreground">
                                             Archive this bookmark
                                         </span>
                                     </label>
-                                    <p className="mt-1 text-xs text-gray-500">
+                                    <p className="mt-1 text-xs text-muted-foreground">
                                         Archived bookmarks are hidden from your
                                         main view.
                                     </p>
@@ -259,7 +259,7 @@ export default function Edit({ bookmark, categories }: BookmarkEditProps) {
                                 <div className="flex items-center justify-between gap-4">
                                     <Link
                                         href={route("dashboard")}
-                                        className="rounded-md px-4 py-2 text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                        className="rounded-md px-4 py-2 text-muted-foreground underline hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                                     >
                                         Back to Dashboard
                                     </Link>
@@ -267,7 +267,7 @@ export default function Edit({ bookmark, categories }: BookmarkEditProps) {
                                     <div className="flex items-center space-x-2">
                                         <Link
                                             href={route("dashboard")}
-                                            className="rounded-md px-4 py-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                            className="rounded-md px-4 py-2 text-muted-foreground hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                                         >
                                             Cancel
                                         </Link>

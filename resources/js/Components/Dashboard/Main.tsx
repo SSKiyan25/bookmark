@@ -196,13 +196,13 @@ export default function Main({ bookmarks, categories, filters }: MainProps) {
             )}
 
             <div className="p-4">
-                {/* Header with action buttons */}
+                {/* Header with the action buttons */}
                 <BookmarkHeader
                     hasCategories={hasCategories}
                     categories={categories}
                 />
 
-                {/* Content: Either empty state or bookmark grid */}
+                {/* Content if Either show empty state or the bookmark grid */}
                 {!hasCategories || filteredBookmarks.length === 0 ? (
                     <EmptyState
                         hasCategories={hasCategories}

@@ -4,13 +4,11 @@ import {
     Card,
     CardContent,
     CardDescription,
-    CardFooter,
-    CardHeader,
     CardTitle,
 } from "@/Components/ui/card";
 import { Button } from "@/Components/ui/button";
-import { Badge } from "@/Components/ui/badge";
 import { ReactNode } from "react";
+import { ModeToggle } from "@/Components/mode-toggle";
 
 // Define a type for our feature data
 interface Feature {
@@ -135,6 +133,7 @@ export default function Welcome({ auth }: PageProps) {
                                 </span>
                             </div>
                             <nav className="flex space-x-4">
+                                <ModeToggle />
                                 {auth.user ? (
                                     <Button asChild>
                                         <Link href={route("dashboard")}>
@@ -233,7 +232,7 @@ export default function Welcome({ auth }: PageProps) {
                             </h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {features.map((feature, index) => (
-                                    <Card key={index} className="bg-white">
+                                    <Card key={index} className="bg-card">
                                         <CardContent className="p-5 flex">
                                             <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary mr-4 flex-shrink-0">
                                                 {feature.icon}

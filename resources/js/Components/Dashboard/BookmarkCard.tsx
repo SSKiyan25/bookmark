@@ -77,7 +77,7 @@ export default function BookmarkCard({
                         variant={bookmark.is_archived ? "outline" : "secondary"}
                         className="mb-2"
                     >
-                        {bookmark.category?.name || "Uncategorized"}
+                        {bookmark?.category.data?.name}
                     </Badge>
 
                     {bookmark.is_archived && (

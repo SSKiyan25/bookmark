@@ -17,6 +17,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/Components/ui/alert-dialog";
+import { toast } from "sonner";
 
 import FilterBar from "./FilterBar";
 import BookmarkHeader from "./BookmarkHeader";
@@ -37,13 +38,11 @@ interface DashboardPageProps extends PageProps {
 }
 
 export default function Main({ bookmarks, categories, filters }: MainProps) {
-    // SIMPLE: Just extract the data directly
     const initialBookmarksData = bookmarks?.data || [];
 
     const [allBookmarks, setAllBookmarks] =
         useState<Bookmark[]>(initialBookmarksData);
 
-    // SIMPLE: Extract meta directly
     const [paginationMeta, setPaginationMeta] = useState(
         bookmarks?.meta || null
     );
@@ -106,7 +105,6 @@ export default function Main({ bookmarks, categories, filters }: MainProps) {
             return [...currentBookmarks, ...newBookmarks];
         });
 
-        // Simpler approach - use direct value setting
         if (paginationMeta) {
             setPaginationMeta({
                 ...paginationMeta,
@@ -145,6 +143,9 @@ export default function Main({ bookmarks, categories, filters }: MainProps) {
                 preserveState: true,
                 replace: true,
             }
+        );
+        toast.success(
+            `${newArchived ? "Showing" : "Hiding"} archived bookmarks`
         );
     };
 
@@ -199,6 +200,8 @@ export default function Main({ bookmarks, categories, filters }: MainProps) {
     // Handler for toggling archive status
     const handleToggleArchive = () => {
         if (activeBookmark) {
+            const isArchiving = !activeBookmark.is_archived;
+
             router.patch(
                 route("bookmarks.archive", activeBookmark.id),
                 {},
@@ -216,6 +219,22 @@ export default function Main({ bookmarks, categories, filters }: MainProps) {
                                     : bookmark
                             )
                         );
+
+                        // Show success toast
+                        toast.success(
+                            isArchiving
+                                ? `"${activeBookmark.title}" has been archived successfully.`
+                                : `"${activeBookmark.title}" has been unarchived successfully.`
+                        );
+                    },
+                    onError: (errors) => {
+                        // Show error toast
+                        toast.error(
+                            isArchiving
+                                ? "Failed to archive bookmark. Please try again."
+                                : "Failed to unarchive bookmark. Please try again."
+                        );
+                        console.error("Archive error:", errors);
                     },
                 }
             );
@@ -226,6 +245,8 @@ export default function Main({ bookmarks, categories, filters }: MainProps) {
     // Handler for deleting bookmark
     const handleDelete = () => {
         if (activeBookmark) {
+            const bookmarkTitle = activeBookmark.title;
+
             router.delete(route("bookmarks.destroy", activeBookmark.id), {
                 preserveState: true,
                 onSuccess: () => {
@@ -235,6 +256,16 @@ export default function Main({ bookmarks, categories, filters }: MainProps) {
                             (bookmark) => bookmark.id !== activeBookmark.id
                         )
                     );
+
+                    // Show success toast
+                    toast.success(
+                        `"${bookmarkTitle}" has been deleted successfully.`
+                    );
+                },
+                onError: (errors) => {
+                    // Show error toast
+                    toast.error("Failed to delete bookmark. Please try again.");
+                    console.error("Delete error:", errors);
                 },
             });
             setIsDeleteDialogOpen(false);

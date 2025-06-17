@@ -16,6 +16,7 @@ import {
     Copy,
     Check,
     Undo2,
+    MoreHorizontal,
 } from "lucide-react";
 
 interface BookmarkCardProps {
@@ -30,6 +31,7 @@ export default function BookmarkCard({
     onDelete,
 }: BookmarkCardProps) {
     const [showFullUrl, setShowFullUrl] = useState(false);
+    const [showFullDescription, setShowFullDescription] = useState(false);
     const [isCopied, setIsCopied] = useState(false);
 
     // Extract domain from URL for display
@@ -57,6 +59,11 @@ export default function BookmarkCard({
             toast.error("Failed to copy URL. Please try again.");
         }
     };
+
+    // Check if description is long (more than 100 characters)
+    const isDescriptionLong =
+        bookmark.description && bookmark.description.length > 100;
+    const truncatedDescription = bookmark.description?.slice(0, 100) + "...";
 
     return (
         <Card
@@ -145,9 +152,36 @@ export default function BookmarkCard({
                 </div>
 
                 {bookmark.description && (
-                    <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
-                        {bookmark.description}
-                    </p>
+                    <div className="mb-3">
+                        <p className="text-sm text-muted-foreground">
+                            {isDescriptionLong && !showFullDescription
+                                ? truncatedDescription
+                                : bookmark.description}
+                        </p>
+
+                        {isDescriptionLong && (
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() =>
+                                    setShowFullDescription(!showFullDescription)
+                                }
+                                className="text-xs text-muted-foreground h-6 px-2 mt-1"
+                            >
+                                {showFullDescription ? (
+                                    <>
+                                        <ChevronUp className="h-3 w-3 mr-1" />
+                                        Show Less
+                                    </>
+                                ) : (
+                                    <>
+                                        <MoreHorizontal className="h-3 w-3 mr-1" />
+                                        Show More
+                                    </>
+                                )}
+                            </Button>
+                        )}
+                    </div>
                 )}
             </CardContent>
 

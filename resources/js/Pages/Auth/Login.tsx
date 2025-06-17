@@ -38,7 +38,7 @@ export default function Login({
                 </div>
             )}
 
-            <form onSubmit={submit}>
+            <form onSubmit={submit} className="space-y-6">
                 <div>
                     <InputLabel htmlFor="email" value="Email" />
 
@@ -56,7 +56,7 @@ export default function Login({
                     <InputError message={errors.email} className="mt-2" />
                 </div>
 
-                <div className="mt-4">
+                <div>
                     <InputLabel htmlFor="password" value="Password" />
 
                     <TextInput
@@ -72,7 +72,7 @@ export default function Login({
                     <InputError message={errors.password} className="mt-2" />
                 </div>
 
-                <div className="mt-4 block">
+                <div className="flex items-center">
                     <label className="flex items-center">
                         <Checkbox
                             name="remember"
@@ -90,7 +90,7 @@ export default function Login({
                     </label>
                 </div>
 
-                <div className="mt-4 flex items-center justify-end">
+                <div className="flex items-center justify-end">
                     {canResetPassword && (
                         <Link
                             href={route("password.request")}

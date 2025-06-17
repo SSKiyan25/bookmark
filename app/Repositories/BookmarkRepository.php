@@ -6,7 +6,7 @@ use App\Models\Bookmark;
 
 class BookmarkRepository
 {
-    public function getUserBookmarks(int $userId, array $filters = [], int $perPage = 10)
+    public function getUserBookmarks(int $userId, array $filters = [], int $perPage = 3)
     {
         $query = Bookmark::where('user_id', $userId);
 
@@ -19,6 +19,9 @@ class BookmarkRepository
         if (isset($filters['archived'])) {
             $isArchived = filter_var($filters['archived'], FILTER_VALIDATE_BOOLEAN);
             $query->where('is_archived', $isArchived);
+        } else {
+            // Default to non-archived bookmarks unless explicitly requested
+            $query->where('is_archived', false);
         }
 
         // Apply search filter

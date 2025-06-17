@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { router } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 import {
     BookmarkCollection,
     Category,
     BookmarkFilters,
     Bookmark,
+    PageProps,
 } from "@/types";
 import {
     AlertDialog,
@@ -21,7 +22,7 @@ import FilterBar from "./FilterBar";
 import BookmarkHeader from "./BookmarkHeader";
 import EmptyState from "./EmptyState";
 import BookmarkGrid from "./BookmarkGrid";
-import Pagination from "./Pagination";
+import InfiniteScrollLoader from "./InfiniteScrollLoader";
 
 interface MainProps {
     bookmarks: BookmarkCollection;
@@ -29,18 +30,42 @@ interface MainProps {
     filters: BookmarkFilters;
 }
 
-export default function Main({ bookmarks, categories, filters }: MainProps) {
-    // Extract bookmarks data from the collection
-    const bookmarksData = Array.isArray(bookmarks)
-        ? bookmarks
-        : "data" in bookmarks && Array.isArray(bookmarks.data)
-        ? bookmarks.data
-        : [];
+interface DashboardPageProps extends PageProps {
+    bookmarks: BookmarkCollection;
+    categories: Category[];
+    filters: BookmarkFilters;
+}
 
-    // Filter bookmarks based on archive status if not explicitly showing archived
+export default function Main({ bookmarks, categories, filters }: MainProps) {
+    // SIMPLE: Just extract the data directly
+    const initialBookmarksData = bookmarks?.data || [];
+
+    const [allBookmarks, setAllBookmarks] =
+        useState<Bookmark[]>(initialBookmarksData);
+
+    // SIMPLE: Extract meta directly
+    const [paginationMeta, setPaginationMeta] = useState(
+        bookmarks?.meta || null
+    );
+
+    const { props } = usePage<DashboardPageProps>();
+
+    // Reset bookmarks when filters change (page 1)
+    useEffect(() => {
+        const currentBookmarks = props.bookmarks;
+        const newBookmarks = currentBookmarks?.data || [];
+        const newMeta = currentBookmarks?.meta;
+
+        if (newMeta?.current_page === 1) {
+            setAllBookmarks(newBookmarks);
+            setPaginationMeta(newMeta);
+        }
+    }, [filters]);
+
+    // Filter bookmarks
     const filteredBookmarks = filters.archived
-        ? bookmarksData
-        : bookmarksData.filter((bookmark) => !bookmark.is_archived);
+        ? allBookmarks
+        : allBookmarks.filter((bookmark) => !bookmark.is_archived);
 
     const hasCategories = categories.length > 0;
     const hasActiveFilters = !!(
@@ -72,6 +97,23 @@ export default function Main({ bookmarks, categories, filters }: MainProps) {
             setSelectedCategoryName(null);
         }
     }, [filters?.category_id, categories]);
+
+    // Handler for loading more bookmarks (infinite scroll)
+    const handleLoadMore = (newBookmarks: Bookmark[]) => {
+        setAllBookmarks((prev) => {
+            // Ensure prev is an array
+            const currentBookmarks = Array.isArray(prev) ? prev : [];
+            return [...currentBookmarks, ...newBookmarks];
+        });
+
+        // Simpler approach - use direct value setting
+        if (paginationMeta) {
+            setPaginationMeta({
+                ...paginationMeta,
+                current_page: paginationMeta.current_page + 1,
+            });
+        }
+    };
 
     // Handler for category filter change
     const handleCategoryChange = (categoryId: string | null) => {
@@ -162,6 +204,19 @@ export default function Main({ bookmarks, categories, filters }: MainProps) {
                 {},
                 {
                     preserveState: true,
+                    onSuccess: () => {
+                        // Update the bookmark in our local state
+                        setAllBookmarks((prev) =>
+                            prev.map((bookmark) =>
+                                bookmark.id === activeBookmark.id
+                                    ? {
+                                          ...bookmark,
+                                          is_archived: !bookmark.is_archived,
+                                      }
+                                    : bookmark
+                            )
+                        );
+                    },
                 }
             );
             setIsArchiveDialogOpen(false);
@@ -173,6 +228,14 @@ export default function Main({ bookmarks, categories, filters }: MainProps) {
         if (activeBookmark) {
             router.delete(route("bookmarks.destroy", activeBookmark.id), {
                 preserveState: true,
+                onSuccess: () => {
+                    // Remove the bookmark from our local state
+                    setAllBookmarks((prev) =>
+                        prev.filter(
+                            (bookmark) => bookmark.id !== activeBookmark.id
+                        )
+                    );
+                },
             });
             setIsDeleteDialogOpen(false);
         }
@@ -202,7 +265,7 @@ export default function Main({ bookmarks, categories, filters }: MainProps) {
                     categories={categories}
                 />
 
-                {/* Content if Either show empty state or the bookmark grid */}
+                {/* Content: Either show empty state or the bookmark grid */}
                 {!hasCategories || filteredBookmarks.length === 0 ? (
                     <EmptyState
                         hasCategories={hasCategories}
@@ -212,19 +275,31 @@ export default function Main({ bookmarks, categories, filters }: MainProps) {
                         onClearFilters={handleClearFilters}
                     />
                 ) : (
-                    <BookmarkGrid
-                        bookmarks={filteredBookmarks}
-                        onToggleArchive={openArchiveDialog}
-                        onDelete={openDeleteDialog}
-                    />
-                )}
+                    <>
+                        <BookmarkGrid
+                            bookmarks={filteredBookmarks}
+                            onToggleArchive={openArchiveDialog}
+                            onDelete={openDeleteDialog}
+                        />
 
-                {/* Pagination */}
-                {bookmarks?.meta &&
-                    bookmarks.meta.links &&
-                    bookmarks.meta.links.length > 3 && (
-                        <Pagination links={bookmarks.meta.links} />
-                    )}
+                        {/* Infinite Scroll Loader */}
+                        <InfiniteScrollLoader
+                            hasMorePages={
+                                paginationMeta?.current_page != null &&
+                                paginationMeta?.last_page != null &&
+                                paginationMeta.current_page <
+                                    paginationMeta.last_page
+                            }
+                            currentPage={paginationMeta?.current_page || 1}
+                            filters={{
+                                category_id: filters.category_id || undefined,
+                                archived: filters.archived || undefined,
+                                search: filters.search || undefined,
+                            }}
+                            onLoadMore={handleLoadMore}
+                        />
+                    </>
+                )}
             </div>
 
             {/* Archive Alert Dialog */}

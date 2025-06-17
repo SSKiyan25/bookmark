@@ -27,18 +27,45 @@ class DashboardController extends Controller
             ->orderBy('name')
             ->get();
 
-        // Get filtered bookmarks
+        // Get filtered bookmarks with pagination
         $filters = [
             'category_id' => $request->query('category'),
             'archived' => $request->query('archived'),
             'search' => $request->query('search'),
         ];
 
-        $bookmarks = $this->bookmarkRepository->getUserBookmarks(Auth::id(), $filters);
+        $bookmarks = $this->bookmarkRepository->getUserBookmarks(Auth::id(), $filters, 3);
 
+        // Check if this is a partial reload request (infinite scroll)
+        if ($request->header('X-Inertia-Partial-Data') === 'bookmarks') {
+            // Return partial Inertia response for infinite scroll
+            return Inertia::render('Dashboard', [
+                'bookmarks' => [
+                    'data' => BookmarkResource::collection($bookmarks->items())->resolve(),
+                    'meta' => [
+                        'current_page' => $bookmarks->currentPage(),
+                        'last_page' => $bookmarks->lastPage(),
+                        'per_page' => $bookmarks->perPage(),
+                        'total' => $bookmarks->total(),
+                        'has_more_pages' => $bookmarks->hasMorePages(),
+                    ]
+                ]
+            ]);
+        }
+
+        // Initial page load - return full Inertia response
         return Inertia::render('Dashboard', [
             'categories' => CategoryResource::collection($categories),
-            'bookmarks' => BookmarkResource::collection($bookmarks),
+            'bookmarks' => [
+                'data' => BookmarkResource::collection($bookmarks->items())->resolve(),
+                'meta' => [
+                    'current_page' => $bookmarks->currentPage(),
+                    'last_page' => $bookmarks->lastPage(),
+                    'per_page' => $bookmarks->perPage(),
+                    'total' => $bookmarks->total(),
+                    'has_more_pages' => $bookmarks->hasMorePages(),
+                ]
+            ],
             'filters' => $filters
         ]);
     }

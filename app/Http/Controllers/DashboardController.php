@@ -21,7 +21,6 @@ class DashboardController extends Controller
 
     public function index(Request $request)
     {
-        $user_id = Auth::id();
         // Get categories for the sidebar/filter
         $categories = Category::where('user_id', Auth::id())
             ->withCount('bookmarks')

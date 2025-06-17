@@ -242,7 +242,6 @@ function BookmarkFormActions({
         );
     }
 
-    // Create form has simpler button layout
     return (
         <div className="flex items-center justify-end gap-4">
             <Link

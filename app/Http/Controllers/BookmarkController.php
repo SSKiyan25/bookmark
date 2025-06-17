@@ -22,7 +22,7 @@ class BookmarkController extends Controller
     }
 
     /**
-     * Display a listing of bookmarks (API method)
+     * Display a listing of bookmarks
      */
     public function getBookmarks(Request $request)
     {
@@ -40,7 +40,7 @@ class BookmarkController extends Controller
     }
 
     /**
-     * Get bookmarks filtered by category (API method)
+     * Get bookmarks filtered by category
      */
     public function getBookmarksByCategory(Request $request, Category $category)
     {
@@ -63,7 +63,7 @@ class BookmarkController extends Controller
     }
 
     /**
-     * Get archived bookmarks (API method)
+     * Get archived bookmarks
      */
     public function getArchivedBookmarks(Request $request)
     {

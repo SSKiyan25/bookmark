@@ -17,7 +17,7 @@ export default function Authenticated({
         useState(false);
 
     return (
-        <div className="min-h-screen bg-background">
+        <div className="min-h-screen bg-background flex flex-col">
             <nav className="border-b border-border bg-card">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 justify-between">
@@ -183,10 +183,11 @@ export default function Authenticated({
                 </header>
             )}
 
-            <main className="bg-background">
+            <main className="bg-background flex-1">
                 {children} <Toaster />
             </main>
-            <footer className="w-full bg-muted/50 py-6">
+
+            <footer className="w-full bg-muted/50 py-6 mt-auto">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-muted-foreground">
                     <p>
                         © {new Date().getFullYear()} BookChest. A simple

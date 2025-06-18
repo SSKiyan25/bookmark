@@ -13,7 +13,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Check if columns don't exist before adding them
         Schema::table('users', function (Blueprint $table) {
             if (!Schema::hasColumn('users', 'username')) {
                 $table->string('username')->nullable()->after('name');
@@ -22,13 +21,9 @@ return new class extends Migration
                 $table->string('avatar')->nullable()->after('email');
             }
         });
-
-        // Update existing users with generated usernames
         $this->generateUsernamesForExistingUsers();
 
-        // Add the unique constraint and make username non-nullable
         Schema::table('users', function (Blueprint $table) {
-            // Only modify if the column doesn't already have the constraints
             if (!$this->hasUniqueConstraint('users', 'username')) {
                 $table->string('username')->nullable(false)->change();
                 $table->unique('username');

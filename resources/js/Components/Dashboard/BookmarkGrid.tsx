@@ -14,18 +14,17 @@ export default function BookmarkGrid({
     onDelete,
 }: BookmarkGridProps) {
     return (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            <AnimatePresence mode="popLayout">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-6">
+            <AnimatePresence>
                 {bookmarks.map((bookmark, index) => (
                     <motion.div
                         key={bookmark.id}
-                        layout
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.8 }}
                         transition={{
                             duration: 0.3,
-                            delay: index < 12 ? index * 0.05 : 0, // Only animate first 12 items
+                            delay: index < 12 ? index * 0.05 : 0,
                         }}
                     >
                         <BookmarkCard

@@ -71,7 +71,7 @@ export default function BookmarkCard({
                 bookmark.is_archived ? "bg-muted" : "bg-card"
             }`}
         >
-            <CardContent className="p-5 pt-5">
+            <CardContent className="p-5">
                 <div className="flex justify-between items-start mb-3">
                     <Badge
                         variant={bookmark.is_archived ? "outline" : "secondary"}
@@ -185,7 +185,7 @@ export default function BookmarkCard({
                 )}
             </CardContent>
 
-            <CardFooter className="p-2 flex justify-between items-center border-t border-border">
+            <CardFooter className="p-3 flex justify-between items-center border-t border-border">
                 <div className="flex space-x-2">
                     {!bookmark.is_archived && (
                         <Button
@@ -221,7 +221,6 @@ export default function BookmarkCard({
                     </Button>
                 </div>
 
-                {/* Only show delete button for archived bookmarks */}
                 {bookmark.is_archived && (
                     <Button
                         variant="ghost"

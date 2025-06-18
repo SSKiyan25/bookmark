@@ -23,6 +23,7 @@ import FilterBar from "./FilterBar";
 import BookmarkHeader from "./BookmarkHeader";
 import EmptyState from "./EmptyState";
 import BookmarkGrid from "./BookmarkGrid";
+import BookmarkList from "./BookmarkList";
 import InfiniteScrollLoader from "./InfiniteScrollLoader";
 
 interface MainProps {
@@ -46,6 +47,9 @@ export default function Main({ bookmarks, categories, filters }: MainProps) {
     const [paginationMeta, setPaginationMeta] = useState(
         bookmarks?.meta || null
     );
+
+    // View mode state
+    const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
     const { props } = usePage<DashboardPageProps>();
 
@@ -96,6 +100,26 @@ export default function Main({ bookmarks, categories, filters }: MainProps) {
             setSelectedCategoryName(null);
         }
     }, [filters?.category_id, categories]);
+
+    // Handler for view mode change
+    const handleViewModeChange = (mode: "grid" | "list") => {
+        setViewMode(mode);
+        // Optionally save to localStorage to persist user preference
+        localStorage.setItem("bookmarkViewMode", mode);
+    };
+
+    // Load saved view mode on component mount
+    useEffect(() => {
+        const savedViewMode = localStorage.getItem("bookmarkViewMode") as
+            | "grid"
+            | "list";
+        if (
+            savedViewMode &&
+            (savedViewMode === "grid" || savedViewMode === "list")
+        ) {
+            setViewMode(savedViewMode);
+        }
+    }, []);
 
     // Handler for loading more bookmarks (infinite scroll)
     const handleLoadMore = (newBookmarks: Bookmark[]) => {
@@ -290,13 +314,15 @@ export default function Main({ bookmarks, categories, filters }: MainProps) {
             )}
 
             <div className="p-4">
-                {/* Header with the action buttons */}
+                {/* Header with the action buttons and view toggle */}
                 <BookmarkHeader
                     hasCategories={hasCategories}
                     categories={categories}
+                    viewMode={viewMode}
+                    onViewModeChange={handleViewModeChange}
                 />
 
-                {/* Content: Either show empty state or the bookmark grid */}
+                {/* Either show empty state or the bookmark grid/list */}
                 {!hasCategories || filteredBookmarks.length === 0 ? (
                     <EmptyState
                         hasCategories={hasCategories}
@@ -307,11 +333,20 @@ export default function Main({ bookmarks, categories, filters }: MainProps) {
                     />
                 ) : (
                     <>
-                        <BookmarkGrid
-                            bookmarks={filteredBookmarks}
-                            onToggleArchive={openArchiveDialog}
-                            onDelete={openDeleteDialog}
-                        />
+                        {/* Conditional rendering based on view mode */}
+                        {viewMode === "grid" ? (
+                            <BookmarkGrid
+                                bookmarks={filteredBookmarks}
+                                onToggleArchive={openArchiveDialog}
+                                onDelete={openDeleteDialog}
+                            />
+                        ) : (
+                            <BookmarkList
+                                bookmarks={filteredBookmarks}
+                                onToggleArchive={openArchiveDialog}
+                                onDelete={openDeleteDialog}
+                            />
+                        )}
 
                         {/* Infinite Scroll Loader */}
                         <InfiniteScrollLoader

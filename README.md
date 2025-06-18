@@ -39,7 +39,7 @@ Before running this project, ensure the following are installed:
 1. **Clone the repository**
 
     ```bash
-    git clone https://github.com/yourusername/bookmarker.git
+    git clone https://github.com/SSKiyan25/bookmarker.git
     cd bookmarker
     ```
 

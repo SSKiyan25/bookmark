@@ -29,14 +29,12 @@ export default function SearchBar({
 
     // Function to validate the search query
     const validateSearchQuery = (query: string): boolean => {
-        // Empty queries are valid
         if (!query.trim()) {
             setError(null);
             setIsValid(true);
             return true;
         }
 
-        // Check for excessive length
         if (query.length > 100) {
             setError("Search query is too long (max 100 characters)");
             setIsValid(false);
@@ -61,7 +59,6 @@ export default function SearchBar({
             return false;
         }
 
-        // Clear error if valid
         setError(null);
         setIsValid(true);
         return true;

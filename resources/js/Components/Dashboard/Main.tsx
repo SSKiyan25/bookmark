@@ -104,7 +104,6 @@ export default function Main({ bookmarks, categories, filters }: MainProps) {
     // Handler for view mode change
     const handleViewModeChange = (mode: "grid" | "list") => {
         setViewMode(mode);
-        // Optionally save to localStorage to persist user preference
         localStorage.setItem("bookmarkViewMode", mode);
     };
 
@@ -124,7 +123,6 @@ export default function Main({ bookmarks, categories, filters }: MainProps) {
     // Handler for loading more bookmarks (infinite scroll)
     const handleLoadMore = (newBookmarks: Bookmark[]) => {
         setAllBookmarks((prev) => {
-            // Ensure prev is an array
             const currentBookmarks = Array.isArray(prev) ? prev : [];
             return [...currentBookmarks, ...newBookmarks];
         });
@@ -274,20 +272,17 @@ export default function Main({ bookmarks, categories, filters }: MainProps) {
             router.delete(route("bookmarks.destroy", activeBookmark.id), {
                 preserveState: true,
                 onSuccess: () => {
-                    // Remove the bookmark from our local state
+                    // Remove the bookmark from the local state
                     setAllBookmarks((prev) =>
                         prev.filter(
                             (bookmark) => bookmark.id !== activeBookmark.id
                         )
                     );
-
-                    // Show success toast
                     toast.success(
                         `"${bookmarkTitle}" has been deleted successfully.`
                     );
                 },
                 onError: (errors) => {
-                    // Show error toast
                     toast.error("Failed to delete bookmark. Please try again.");
                     console.error("Delete error:", errors);
                 },
@@ -298,7 +293,7 @@ export default function Main({ bookmarks, categories, filters }: MainProps) {
 
     return (
         <div className="bg-card shadow-sm sm:rounded-lg p-8 sm:p-4">
-            {/* Filter bar - only show if we have categories */}
+            {/* Filter bar that will only show if ther are categories */}
             {hasCategories && (
                 <FilterBar
                     categories={categories}

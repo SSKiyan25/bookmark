@@ -67,8 +67,8 @@ export default function InfiniteScrollLoader({
                 }
             },
             {
-                threshold: 0.85, // Element must be fully visible
-                rootMargin: "0px", // No margin - only trigger when actually visible
+                threshold: 0.85, // Element must be partially visible
+                rootMargin: "0px", // No margin, will only trigger when actually visible
             }
         );
 

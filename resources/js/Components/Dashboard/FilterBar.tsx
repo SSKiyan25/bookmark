@@ -12,7 +12,7 @@ interface FilterBarProps {
     onSearch: (e: React.FormEvent) => void;
     onSearchQueryChange: (query: string) => void;
     onClearFilters: () => void;
-    searchQuery: string | null; // Needed for controlled input
+    searchQuery: string | null;
 }
 
 export default function FilterBar({

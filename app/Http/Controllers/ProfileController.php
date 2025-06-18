@@ -40,7 +40,7 @@ class ProfileController extends Controller
         $validated = $request->validated();
 
         // Remove avatar from validated data if no file was uploaded
-        // This prevents overwriting the existing avatar with null
+        // Prevents overwriting the existing avatar with null
         if (!$request->hasFile('avatar')) {
             unset($validated['avatar']);
             Log::info('No avatar file uploaded, preserving existing avatar');

@@ -9,7 +9,6 @@ import { Link, useForm, usePage, router } from "@inertiajs/react";
 import { FormEventHandler, useRef, useState } from "react";
 import { Camera, X } from "lucide-react";
 import { toast } from "sonner";
-import { useEffect } from "react";
 
 export default function UpdateProfileInformation({
     mustVerifyEmail,
@@ -43,7 +42,6 @@ export default function UpdateProfileInformation({
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        // Use POST with _method PATCH for file uploads
         post(route("profile.update"), {
             forceFormData: true,
             onSuccess: (page) => {
@@ -52,12 +50,7 @@ export default function UpdateProfileInformation({
                     fileInputRef.current.value = "";
                 }
                 setData("avatar", null);
-
-                // Show success toast without page refresh
                 toast.success("Profile updated successfully!");
-
-                // Optional: Update the user data in the page props
-                // This requires the server to return updated user data
             },
         });
     };

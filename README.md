@@ -86,15 +86,15 @@ Before running this project, ensure the following are installed:
     npm run build
     ```
 
-## Development Status 🚧
+## Development Status
 
 **Note**: This application is currently in development and has not yet been deployed to production. It runs locally for development and testing purposes using Laragon.
 
-## License 📄
+## License
 
 This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
-## Support 💬
+## Support
 
 If issues are encountered or questions arise, please create an issue in the GitHub repository.
 

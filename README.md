@@ -71,8 +71,8 @@ Before running this project, ensure the following are installed:
     DB_HOST=127.0.0.1
     DB_PORT=3306
     DB_DATABASE=bookmarker
-    DB_USERNAME=your_username
-    DB_PASSWORD=your_password
+    DB_USERNAME=root
+    DB_PASSWORD=
     ```
 
 6. **Run database migrations**

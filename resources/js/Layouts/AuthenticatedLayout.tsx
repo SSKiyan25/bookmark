@@ -6,6 +6,7 @@ import { Link, usePage } from "@inertiajs/react";
 import { PropsWithChildren, ReactNode, useState } from "react";
 import { Toaster } from "@/Components/ui/sonner";
 import { ModeToggle } from "@/Components/mode-toggle";
+import { Avatar, AvatarFallback, AvatarImage } from "@/Components/ui/avatar";
 
 export default function Authenticated({
     header,
@@ -15,6 +16,17 @@ export default function Authenticated({
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
+
+    // Generate initials for fallback avatar
+    const getInitials = (name: string) => {
+        const nameParts = name.split(" ");
+        if (nameParts.length > 1) {
+            return (
+                nameParts[0][0] + nameParts[nameParts.length - 1][0]
+            ).toUpperCase();
+        }
+        return name.slice(0, 2).toUpperCase();
+    };
 
     return (
         <div className="min-h-screen bg-background flex flex-col">
@@ -54,8 +66,16 @@ export default function Authenticated({
                                                 type="button"
                                                 className="inline-flex items-center rounded-md border border-border bg-card px-3 py-2 text-sm font-medium leading-4 text-muted-foreground transition duration-150 ease-in-out hover:text-foreground focus:outline-none"
                                             >
-                                                {user.name}
-
+                                                <Avatar className="h-6 w-6 mr-2">
+                                                    <AvatarImage
+                                                        src={user.avatar_url}
+                                                        alt={user.name}
+                                                    />
+                                                    <AvatarFallback className="text-xs">
+                                                        {getInitials(user.name)}
+                                                    </AvatarFallback>
+                                                </Avatar>
+                                                @{user.username}
                                                 <svg
                                                     className="-me-0.5 ms-2 h-4 w-4"
                                                     xmlns="http://www.w3.org/2000/svg"
@@ -150,12 +170,23 @@ export default function Authenticated({
                     </div>
 
                     <div className="border-t border-border pb-1 pt-4">
-                        <div className="px-4">
-                            <div className="text-base font-medium text-foreground">
-                                {user.name}
-                            </div>
-                            <div className="text-sm font-medium text-muted-foreground">
-                                {user.email}
+                        <div className="px-4 flex items-center">
+                            <Avatar className="h-8 w-8 mr-3">
+                                <AvatarImage
+                                    src={user.avatar_url}
+                                    alt={user.name}
+                                />
+                                <AvatarFallback className="text-sm">
+                                    {getInitials(user.name)}
+                                </AvatarFallback>
+                            </Avatar>
+                            <div>
+                                <div className="text-base font-medium text-foreground">
+                                    {user.name}
+                                </div>
+                                <div className="text-sm font-medium text-muted-foreground">
+                                    @{user.username} • {user.email}
+                                </div>
                             </div>
                         </div>
 

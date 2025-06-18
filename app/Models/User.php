@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -20,7 +21,9 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
+        'avatar',
         'password',
     ];
 
@@ -33,6 +36,8 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    protected $appends = ['avatar_url'];
 
     /**
      * Get the attributes that should be cast.
@@ -61,5 +66,30 @@ class User extends Authenticatable
     public function categories(): HasMany
     {
         return $this->hasMany(Category::class);
+    }
+
+    /**
+     * Get the user's avatar URL.
+     */
+    public function getAvatarUrlAttribute(): string
+    {
+        if ($this->avatar) {
+            return Storage::disk('public')->url($this->avatar);
+        }
+        return $this->generateDefaultAvatar();
+    }
+
+    /**
+     * Generate a default avatar using initials.
+     */
+    private function generateDefaultAvatar(): string
+    {
+        $initials = strtoupper(substr($this->name, 0, 1));
+        if (strpos($this->name, ' ') !== false) {
+            $nameParts = explode(' ', $this->name);
+            $initials = strtoupper(substr($nameParts[0], 0, 1) . substr(end($nameParts), 0, 1));
+        }
+
+        return "https://ui-avatars.com/api/?name=" . urlencode($initials) . "&background=random&color=fff&size=200";
     }
 }

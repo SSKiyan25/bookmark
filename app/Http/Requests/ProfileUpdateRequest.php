@@ -18,6 +18,13 @@ class ProfileUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
+            'username' => [
+                'required',
+                'string',
+                'max:255',
+                'regex:/^[a-zA-Z0-9_]+$/', // Only alphanumeric and underscores
+                Rule::unique(User::class)->ignore(Auth::id()),
+            ],
             'email' => [
                 'required',
                 'string',
@@ -26,6 +33,7 @@ class ProfileUpdateRequest extends FormRequest
                 'max:255',
                 Rule::unique(User::class)->ignore(Auth::id()),
             ],
+            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], // 2MB max
         ];
     }
 
@@ -38,5 +46,19 @@ class ProfileUpdateRequest extends FormRequest
     public function user($guard = null)
     {
         return Auth::guard($guard)->user();
+    }
+
+    /**
+     * Get custom error messages.
+     */
+    public function messages(): array
+    {
+        return [
+            'username.regex' => 'Username can only contain letters, numbers, and underscores.',
+            'username.unique' => 'This username is already taken.',
+            'avatar.image' => 'Avatar must be an image file.',
+            'avatar.mimes' => 'Avatar must be a JPEG, PNG, JPG, or GIF file.',
+            'avatar.max' => 'Avatar must not be larger than 2MB.',
+        ];
     }
 }

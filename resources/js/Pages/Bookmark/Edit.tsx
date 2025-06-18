@@ -2,15 +2,10 @@ import { useForm } from "@inertiajs/react";
 import { FormEventHandler, useEffect } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Bookmark, Category, PageProps } from "@/types";
-import { Head, Link } from "@inertiajs/react";
-import InputError from "@/Components/InputError";
-import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
-import TextInput from "@/Components/TextInput";
-import TextArea from "@/Components/TextArea";
-import Checkbox from "@/Components/Checkbox";
+import { Head } from "@inertiajs/react";
 import { useBookmarkValidation, BookmarkFormData } from "@/hooks";
-import SelectInput from "@/Components/SelectInput";
+import BookmarkForm from "@/Components/Form/Bookmark";
+import FormLayout from "@/Layouts/Form";
 
 interface BookmarkEditProps extends PageProps {
     bookmark: Bookmark;
@@ -97,7 +92,7 @@ export default function Edit({ bookmark, categories }: BookmarkEditProps) {
 
         patch(route("bookmarks.update", bookmarkId), {
             onSuccess: () => {
-                //
+                // Optional: Add success notification or redirect
             },
             onError: (errors) => {
                 console.error("Update failed:", errors);
@@ -115,177 +110,24 @@ export default function Edit({ bookmark, categories }: BookmarkEditProps) {
         >
             <Head title="Edit Bookmark" />
 
-            <div className="py-12">
-                <div className="mx-auto max-w-2xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-card shadow-sm sm:rounded-lg border border-border">
-                        <div className="p-6">
-                            <form onSubmit={submit} className="space-y-6">
-                                {/* Title Field */}
-                                <div>
-                                    <InputLabel htmlFor="title" value="Title" />
-                                    <TextInput
-                                        id="title"
-                                        name="title"
-                                        value={data.title}
-                                        className="mt-1 block w-full"
-                                        autoComplete="off"
-                                        isFocused={true}
-                                        onChange={handleTitleChange}
-                                        required
-                                        maxLength={255}
-                                    />
-                                    <InputError
-                                        message={
-                                            errors.title ||
-                                            validationErrors.title
-                                        }
-                                        className="mt-2"
-                                    />
-                                    <p className="mt-1 text-xs text-muted-foreground">
-                                        A descriptive title for your bookmark.
-                                    </p>
-                                </div>
-
-                                {/* URL Field */}
-                                <div>
-                                    <InputLabel htmlFor="url" value="URL" />
-                                    <TextInput
-                                        id="url"
-                                        type="url"
-                                        name="url"
-                                        value={data.url}
-                                        className="mt-1 block w-full"
-                                        onChange={handleUrlChange}
-                                        required
-                                    />
-                                    <InputError
-                                        message={
-                                            errors.url || validationErrors.url
-                                        }
-                                        className="mt-2"
-                                    />
-                                    <p className="mt-1 text-xs text-muted-foreground">
-                                        The full URL of the website (including
-                                        https://).
-                                    </p>
-                                </div>
-
-                                {/* Description Field */}
-                                <div>
-                                    <InputLabel
-                                        htmlFor="description"
-                                        value="Description (Optional)"
-                                    />
-                                    <TextArea
-                                        id="description"
-                                        name="description"
-                                        value={data.description}
-                                        className="mt-1 block w-full"
-                                        onChange={handleDescriptionChange}
-                                        rows={3}
-                                        maxLength={1000}
-                                    />
-                                    <InputError
-                                        message={
-                                            errors.description ||
-                                            validationErrors.description
-                                        }
-                                        className="mt-2"
-                                    />
-                                    <p className="mt-1 text-xs text-muted-foreground">
-                                        A brief description of the website (max
-                                        1000 characters).
-                                    </p>
-                                </div>
-
-                                {/* Category Selection */}
-                                <div>
-                                    <InputLabel
-                                        htmlFor="category_id"
-                                        value="Category"
-                                    />
-                                    <SelectInput
-                                        id="category_id"
-                                        name="category_id"
-                                        value={data.category_id}
-                                        className="mt-1 block w-full"
-                                        onChange={handleCategoryChange}
-                                        required
-                                    >
-                                        <option value="">
-                                            Select a category
-                                        </option>
-                                        {categories.map((category) => (
-                                            <option
-                                                key={category.id}
-                                                value={category.id.toString()}
-                                            >
-                                                {category.name}
-                                            </option>
-                                        ))}
-                                    </SelectInput>
-                                    <InputError
-                                        message={
-                                            errors.category_id ||
-                                            validationErrors.category_id
-                                        }
-                                        className="mt-2"
-                                    />
-                                </div>
-
-                                {/* Archive Checkbox */}
-                                <div className="block">
-                                    <label className="flex items-center">
-                                        <Checkbox
-                                            name="is_archived"
-                                            checked={data.is_archived}
-                                            onChange={handleArchivedChange}
-                                        />
-                                        <span className="ml-2 text-sm text-muted-foreground">
-                                            Archive this bookmark
-                                        </span>
-                                    </label>
-                                    <p className="mt-1 text-xs text-muted-foreground">
-                                        Archived bookmarks are hidden from your
-                                        main view.
-                                    </p>
-                                    <InputError
-                                        message={errors.is_archived}
-                                        className="mt-2"
-                                    />
-                                </div>
-
-                                {/* Form Actions */}
-                                <div className="flex items-center justify-between gap-4">
-                                    <Link
-                                        href={route("dashboard")}
-                                        className="rounded-md px-4 py-2 text-muted-foreground underline hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                                    >
-                                        Back to Dashboard
-                                    </Link>
-
-                                    <div className="flex items-center space-x-2">
-                                        <Link
-                                            href={route("dashboard")}
-                                            className="rounded-md px-4 py-2 text-muted-foreground hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                                        >
-                                            Cancel
-                                        </Link>
-                                        <PrimaryButton
-                                            className="ml-4"
-                                            disabled={
-                                                processing || !isFormValid
-                                            }
-                                        >
-                                            Update Bookmark
-                                        </PrimaryButton>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <FormLayout>
+                <BookmarkForm
+                    data={data}
+                    onSubmit={submit}
+                    onTitleChange={handleTitleChange}
+                    onUrlChange={handleUrlChange}
+                    onDescriptionChange={handleDescriptionChange}
+                    onCategoryChange={handleCategoryChange}
+                    onArchivedChange={handleArchivedChange}
+                    categories={categories}
+                    errors={errors}
+                    validationErrors={validationErrors}
+                    processing={processing}
+                    isFormValid={isFormValid}
+                    submitButtonText="Update Bookmark"
+                    isEdit={true}
+                />
+            </FormLayout>
         </AuthenticatedLayout>
     );
 }
